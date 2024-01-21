@@ -3,12 +3,18 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-        "@devloco\/react-scripts-wptheme": "3.4.1-wp.1",
-        "@testing-library\/jest-dom": "^4.2.4",
-        "@testing-library\/react": "^9.5.0",
-        "@testing-library\/user-event": "^7.2.1",
+        "@devloco/react-scripts-wptheme": "3.4.1-wp.1",
+        "@emotion/react": "^11.11.3",
+        "@emotion/styled": "^11.11.0",
+        "@flaticon/flaticon-uicons": "^3.1.0",
+        "@mui/joy": "^5.0.0-beta.23",
+        "@mui/material": "^5.15.5",
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.5.0",
+        "@testing-library/user-event": "^7.2.1",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.21.3"
     },
     "scripts": {
         "crabuild": "react-scripts build",
@@ -35,6 +41,6 @@
             "last 1 safari version"
         ]
     },
-    "homepage": "\/arijitnandi\/wp-content\/themes\/arijit86",
-    "browserLaunchTo": "http:\/\/localhost\/arijitnandi"
+    "homepage": "/arijitnandi/wp-content/themes/arijit86",
+    "browserLaunchTo": "http://localhost/arijitnandi"
 }

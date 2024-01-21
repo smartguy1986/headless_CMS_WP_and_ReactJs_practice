@@ -8,8 +8,7 @@
     "main.js.map": "/arijitnandi/wp-content/themes/arijit86/static/js/main.chunk.js.map",
     "runtime-main.js": "/arijitnandi/wp-content/themes/arijit86/static/js/bundle.js",
     "runtime-main.js.map": "/arijitnandi/wp-content/themes/arijit86/static/js/bundle.js.map",
-    "index.php": "/arijitnandi/wp-content/themes/arijit86/index.php",
-    "static/media/logo.svg": "/arijitnandi/wp-content/themes/arijit86/static/media/logo.5d5d9eef.svg"
+    "index.php": "/arijitnandi/wp-content/themes/arijit86/index.php"
   },
   "entrypoints": [
     "static/js/bundle.js",

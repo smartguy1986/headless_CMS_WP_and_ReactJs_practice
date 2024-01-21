@@ -32,7 +32,23 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.Strikethrough {
+  text-decoration: line-through;
+}
+
+.back-2 {
+  background-color: #f0f9fa;
+  align-content: center;
+  width: 100% !important;
+}
+
+.back-3 {
+  padding: 5ch;
+  width: 100% !important;
 }
