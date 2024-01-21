@@ -16,7 +16,6 @@ import Modal from '@mui/material/Modal';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import ModalClose from '@mui/joy/ModalClose';
 
 const style = {
     position: 'absolute',
@@ -24,7 +23,6 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
