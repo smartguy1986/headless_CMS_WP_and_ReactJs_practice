@@ -35,7 +35,7 @@ const Todolist = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const [newItem, setNewItem] = useState([]);
+    const [newItem, setNewItem] = useState({ name: '', status: false });
     const [todoList, setTodoList] = useState([]);
 
     const handleInputChange = (event) => {

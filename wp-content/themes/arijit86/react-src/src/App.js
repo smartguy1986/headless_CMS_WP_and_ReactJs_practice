@@ -6,7 +6,6 @@ import Header from './components/inc/Header';
 import Todolist from './components/demo/tododemo/Todolist';
 import Footer from "./components/inc/Footer";
 import '../src/assets/css/animate.css';
-// import '../src/assets/css/font-awesome.min.css';
 import '../src/assets/css/namari-color.css';
 import '../src/assets/css/style.css';
 import ScrollAnimation from 'react-animate-on-scroll';
@@ -16,13 +15,13 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
-                <div id="preloader">
+                {/* <div id="preloader">
                     <div id="status" className="la-ball-triangle-path">
                         <div></div>
                         <div></div>
                         <div></div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="page-border" data-wow-duration="0.7s" data-wow-delay="0.2s">
                     <div>

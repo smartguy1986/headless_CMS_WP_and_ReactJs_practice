@@ -48,8 +48,8 @@ const Header = () => {
                                 </ul>
                             </nav>
 
-                            <div id="nav-trigger"><span></span></div>
-                            <nav id="nav-mobile"></nav>
+                            {/* <div id="nav-trigger"><span></span></div>
+                            <nav id="nav-mobile"></nav> */}
 
                         </div>
                     </div>
