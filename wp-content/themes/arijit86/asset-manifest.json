@@ -1,9 +1,9 @@
 {
   "files": {
-    "static/css/1.chunk.css": "/arijitnandi/wp-content/themes/arijit86/static/css/1.chunk.css",
-    "static/js/1.chunk.js": "/arijitnandi/wp-content/themes/arijit86/static/js/1.chunk.js",
-    "static/css/1.chunk.css.map": "/arijitnandi/wp-content/themes/arijit86/static/css/1.chunk.css.map",
-    "static/js/1.chunk.js.map": "/arijitnandi/wp-content/themes/arijit86/static/js/1.chunk.js.map",
+    "static/css/0.chunk.css": "/arijitnandi/wp-content/themes/arijit86/static/css/0.chunk.css",
+    "static/js/0.chunk.js": "/arijitnandi/wp-content/themes/arijit86/static/js/0.chunk.js",
+    "static/css/0.chunk.css.map": "/arijitnandi/wp-content/themes/arijit86/static/css/0.chunk.css.map",
+    "static/js/0.chunk.js.map": "/arijitnandi/wp-content/themes/arijit86/static/js/0.chunk.js.map",
     "main.css": "/arijitnandi/wp-content/themes/arijit86/static/css/main.chunk.css",
     "main.js": "/arijitnandi/wp-content/themes/arijit86/static/js/main.chunk.js",
     "main.css.map": "/arijitnandi/wp-content/themes/arijit86/static/css/main.chunk.css.map",
@@ -11,22 +11,20 @@
     "runtime-main.js": "/arijitnandi/wp-content/themes/arijit86/static/js/bundle.js",
     "runtime-main.js.map": "/arijitnandi/wp-content/themes/arijit86/static/js/bundle.js.map",
     "index.php": "/arijitnandi/wp-content/themes/arijit86/index.php",
+    "static/media/namari-color.css": "/arijitnandi/wp-content/themes/arijit86/static/media/banner-image-1.e440150c.jpg",
     "static/media/dancer.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/dancer.52f12d30.jpg",
-    "static/media/style.css": "/arijitnandi/wp-content/themes/arijit86/static/media/fa-v4compatibility.c9e50cca.woff2",
     "static/media/gallery-image-1.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/gallery-image-1.50582849.jpg",
     "static/media/gallery-image-2.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/gallery-image-2.d8b8d858.jpg",
     "static/media/gallery-image-3.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/gallery-image-3.0f97f6d8.jpg",
     "static/media/gallery-image-4.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/gallery-image-4.c4d9b20b.jpg",
     "static/media/gallery-image-5.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/gallery-image-5.c34b6352.jpg",
     "static/media/gallery-image-6.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/gallery-image-6.abc5e913.jpg",
-    "static/media/user-1.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/user-1.c905e620.jpg",
-    "static/media/user-2.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/user-2.3217bd49.jpg",
-    "static/media/user-3.jpg": "/arijitnandi/wp-content/themes/arijit86/static/media/user-3.e41fc851.jpg"
+    "static/media/scriptech_logo.png": "/arijitnandi/wp-content/themes/arijit86/static/media/scriptech_logo.da6c61f6.png"
   },
   "entrypoints": [
     "static/js/bundle.js",
-    "static/css/1.chunk.css",
-    "static/js/1.chunk.js",
+    "static/css/0.chunk.css",
+    "static/js/0.chunk.js",
     "static/css/main.chunk.css",
     "static/js/main.chunk.js"
   ]

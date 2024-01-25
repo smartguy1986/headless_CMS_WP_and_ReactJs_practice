@@ -16,6 +16,7 @@ import Modal from '@mui/material/Modal';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import Breadcrumb from '../../inc/Breadcrumb';
 
 const style = {
     position: 'absolute',
@@ -77,6 +78,7 @@ const Todolist = () => {
 
     return (
         <>
+            <Breadcrumb />
             <Container component="main" className='back-2'>
                 <CssBaseline />
                 <Box

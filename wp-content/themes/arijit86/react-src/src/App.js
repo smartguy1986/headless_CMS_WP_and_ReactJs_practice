@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import "./App.css";
 import Homepage from './components/Homepage';
@@ -8,11 +8,18 @@ import Footer from "./components/inc/Footer";
 import '../src/assets/css/animate.css';
 import '../src/assets/css/namari-color.css';
 import '../src/assets/css/style.css';
-import ScrollAnimation from 'react-animate-on-scroll';
+import WOW from 'wowjs';
 
 function App() {
+
+    useEffect(() => {
+        // Initialize WOW.js when the component mounts
+        const wow = new WOW.WOW();
+        wow.init();
+    }, []);
+
     return (
-        <div className="App">
+        <div className="App wrapper">
             <BrowserRouter>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
                 {/* <div id="preloader">
@@ -24,20 +31,10 @@ function App() {
                 </div> */}
 
                 <div className="page-border" data-wow-duration="0.7s" data-wow-delay="0.2s">
-                    <div>
-                        <ScrollAnimation animateIn="fadeInDown" animateOnce>
-                            <div className="top-border"></div>
-                        </ScrollAnimation>
-                        <ScrollAnimation animateIn="fadeInRight" animateOnce>
-                            <div className="right-border"></div>
-                        </ScrollAnimation>
-                        <ScrollAnimation animateIn="fadeInUp" animateOnce>
-                            <div className="bottom-border"></div>
-                        </ScrollAnimation>
-                        <ScrollAnimation animateIn="fadeInLeft" animateOnce>
-                            <div className="left-border"></div>
-                        </ScrollAnimation>
-                    </div>
+                    <div className="top-border wow fadeInDown animated"></div>
+                    <div className="right-border wow fadeInRight animated"></div>
+                    <div className="bottom-border wow fadeInUp animated"></div>
+                    <div className="left-border wow fadeInLeft animated"></div>
                 </div>
 
                 <div id="wrapper">

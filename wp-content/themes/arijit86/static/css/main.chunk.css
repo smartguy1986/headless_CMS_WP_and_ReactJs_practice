@@ -12,8 +12,13 @@ code {
     monospace;
 }
 
+* {
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-logo {
@@ -1907,8 +1912,7 @@ h6 {
 #landing-footer i {
     color:#999;
 }
-/* Namari Landing Page v.1.1.0 Style Index - a free landing page by shapingrain.com
-
+/* 
 1. Default and Reset styles
 - 1.1 Input Elements
 2. Global elements
@@ -2255,7 +2259,7 @@ section {
 }
 
 #logo img {
-    max-height: 22px;
+    max-height: 150px;
     vertical-align: middle;
     margin-right: 15px;
 }
@@ -3850,10 +3854,5 @@ blockquote {
     }
 
 }
-
-
-
-
-
 
 /*# sourceMappingURL=main.chunk.css.map*/

@@ -1,31 +1,26 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import * as React from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import MainLogo from "../../assets/images/logo.png"
 import MainLogo2 from "../../assets/images/logo-2.png"
+import ScriptechLogo from "../../assets/images/scriptech_logo.png"
+import Banner from './Banner'
+import Select from '@mui/material/Select';
 
 const Header = () => {
+
+    const location = useLocation();
+    const isHomePage = location.pathname === '/arijitnandi/';
+
     return (
         <>
-            {/* <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-12">
-                        <ul className="nav">
-                            <li className="nav-item">
-                                <NavLink to='/arijitnandi/'>Home</NavLink>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div> */}
-
             <header id="banner" className="scrollto clearfix" data-enllax-ratio=".5">
                 <div id="header" className="nav-collapse">
                     <div className="row clearfix">
                         <div className="col-1">
 
                             <div id="logo">
-                                <img src={MainLogo} id="banner-logo" alt="Landing Page" />
-                                <img src={MainLogo2} id="navigation-logo" alt="Landing Page" />
+                                <NavLink to='/arijitnandi/'><img src={ScriptechLogo} id="banner-logo" alt="Landing Page" /></NavLink>
+                                <img src={ScriptechLogo} id="navigation-logo" alt="Landing Page" />
                             </div>
 
                             <aside>
@@ -45,6 +40,9 @@ const Header = () => {
                                     <li>
                                         <NavLink to='/arijitnandi/'>Home</NavLink>
                                     </li>
+                                    <li>
+                                        <NavLink to='/arijitnandi/react/demos/tododemo'>Todolist</NavLink>
+                                    </li>
                                 </ul>
                             </nav>
 
@@ -55,16 +53,7 @@ const Header = () => {
                     </div>
                 </div>
 
-                <div id="banner-content" className="row clearfix">
-                    <div className="col-38">
-                        <div className="section-heading">
-                            <h1>A FREE AND SIMPLE LANDING PAGE</h1>
-                            <h2>Namari is a free landing page template you can use for your projects. It is free to use for your
-                                personal and commercial projects, enjoy!</h2>
-                        </div>
-                        <button>START CREATING TODAY</button>
-                    </div>
-                </div>
+                {isHomePage && <Banner />}
             </header>
         </>
     )

@@ -1,5 +1,4 @@
-/* Namari Landing Page v.1.1.0 Style Index - a free landing page by shapingrain.com
-
+/* 
 1. Default and Reset styles
 - 1.1 Input Elements
 2. Global elements
@@ -355,7 +354,7 @@ section {
 }
 
 #logo img {
-    max-height: 22px;
+    max-height: 150px;
     vertical-align: middle;
     margin-right: 15px;
 }
@@ -2327,7 +2326,3 @@ blockquote {
     }
 
 }
-
-
-
-
