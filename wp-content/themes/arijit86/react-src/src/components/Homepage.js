@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, Typography } from 'antd';
 // import { NavLink } from 'react-router-dom';
 import Gallery1 from "../assets/images/gallery-images/gallery-image-1.jpg"
 import Gallery2 from "../assets/images/gallery-images/gallery-image-2.jpg"
@@ -84,7 +84,7 @@ const Homepage = () => {
 
                 </section>
 
-                <aside id="gallery" className="row text-center scrollto clearfix" data-featherlight-gallery
+                {/* <aside id="gallery" className="row text-center scrollto clearfix" data-featherlight-gallery
                     data-featherlight-filter="a">
 
                     <Button><img src={Gallery1} alt="Landing Page" /></Button>
@@ -94,7 +94,7 @@ const Homepage = () => {
                     <Button><img src={Gallery5} alt="Landing Page" /></Button>
                     <Button><img src={Gallery6} alt="Landing Page" /></Button>
 
-                </aside>
+                </aside> */}
 
                 <div id="services" className="scrollto clearfix">
 

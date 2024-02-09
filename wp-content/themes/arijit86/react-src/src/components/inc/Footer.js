@@ -6,8 +6,6 @@ const Footer = () => {
             <footer id="landing-footer" className="clearfix">
                 <div className="row clearfix">
 
-                    <p id="copyright" className="col-2">Made with love by <a href="https://www.shapingrain.com" rel="noopener noreferrer">ShapingRain</a></p>
-
                     <ul className="col-2 social-icons">
                         <li>
                             <a target="_blank" title="Facebook" href="https://www.facebook.com/username" rel="noopener noreferrer">

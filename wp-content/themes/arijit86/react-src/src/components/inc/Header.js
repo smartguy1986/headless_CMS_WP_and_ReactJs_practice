@@ -1,15 +1,39 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import MainLogo from "../../assets/images/logo.png"
-import MainLogo2 from "../../assets/images/logo-2.png"
 import ScriptechLogo from "../../assets/images/scriptech_logo.png"
 import Banner from './Banner'
-import Select from '@mui/material/Select';
+import WeatherData from '../misc/WeatherData'
+import { API_ENDPOINTS } from "../../urlConfig"
+import { FacebookFilled } from '@ant-design/icons'
+
 
 const Header = () => {
 
     const location = useLocation();
     const isHomePage = location.pathname === '/arijitnandi/';
+
+    const [logoUrl, setLogoUrl] = useState('');
+
+    useEffect(() => {
+        // Function to fetch logo from custom endpoint
+        const fetchLogo = async () => {
+            try {
+                const response = await fetch(API_ENDPOINTS.CUSTOM_LOGO);
+                if (response.status === 200) {
+                    const data = await response.json();
+                    // Assuming your endpoint returns logo URL in data.data
+                    setLogoUrl(data.data);
+                } else {
+                    console.error('Error fetching logo:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching logo:', error.message);
+            }
+        };
+
+        // Call the fetchLogo function
+        fetchLogo();
+    }, []);
 
     return (
         <>
@@ -19,29 +43,30 @@ const Header = () => {
                         <div className="col-1">
 
                             <div id="logo">
-                                <NavLink to='/arijitnandi/'><img src={ScriptechLogo} id="banner-logo" alt="Landing Page" /></NavLink>
-                                <img src={ScriptechLogo} id="navigation-logo" alt="Landing Page" />
+                                <NavLink to='/arijitnandi/'><img src={logoUrl ? logoUrl : ScriptechLogo} id="banner-logo" alt="Landing Page" /></NavLink>
+                                <img src={logoUrl ? logoUrl : ScriptechLogo} id="navigation-logo" alt="Landing Page" />
                             </div>
 
                             <aside>
 
                                 <ul className="social-icons">
                                     <li>
-                                        {/* <a target="_blank" title="Facebook" href="#">
-                                            <i className="fa fa-facebook fa-1x"></i><span>Facebook</span>
-                                        </a> */}
+                                        <NavLink to={'/'}><FacebookFilled /></NavLink>
                                     </li>
                                 </ul>
 
                             </aside>
 
-                            <nav id="nav-main">
+                            <nav id="nav-main" style={{ float: 'right' }}>
                                 <ul>
                                     <li>
-                                        <NavLink to='/arijitnandi/'>Home</NavLink>
+                                        <NavLink to='/arijitnandi/' className={'text-bold'}>Home</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to='/arijitnandi/react/demos/tododemo'>Todolist</NavLink>
+                                        <NavLink to='/arijitnandi/react/demos/tododemo' className={'text-bold'}>Todolist</NavLink>
+                                    </li>
+                                    <li>
+                                        <WeatherData />
                                     </li>
                                 </ul>
                             </nav>

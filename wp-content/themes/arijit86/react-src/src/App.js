@@ -1,25 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import "./App.css";
 import Homepage from './components/Homepage';
 import Header from './components/inc/Header';
 import Todolist from './components/demo/tododemo/Todolist';
 import Footer from "./components/inc/Footer";
+// import 'antd/dist/antd.css';
 import '../src/assets/css/animate.css';
 import '../src/assets/css/namari-color.css';
 import '../src/assets/css/style.css';
-import WOW from 'wowjs';
 
 function App() {
-
-    useEffect(() => {
-        // Initialize WOW.js when the component mounts
-        const wow = new WOW.WOW();
-        wow.init();
-    }, []);
-
     return (
-        <div className="App wrapper">
+        <div className="App">
             <BrowserRouter>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
                 {/* <div id="preloader">
@@ -39,12 +32,12 @@ function App() {
 
                 <div id="wrapper">
                     <Header />
+                    <Routes>
+                        <Route path="/arijitnandi" element={<Homepage />} />
+                        <Route path="/arijitnandi/react/demos/tododemo" element={<Todolist />} />
+                    </Routes>
+                    {/* <Footer /> */}
                 </div>
-                <Routes>
-                    <Route path="/arijitnandi" element={<Homepage />} />
-                    <Route path="/arijitnandi/react/demos/tododemo" element={<Todolist />} />
-                </Routes>
-                <Footer />
             </BrowserRouter>
         </div>
     );

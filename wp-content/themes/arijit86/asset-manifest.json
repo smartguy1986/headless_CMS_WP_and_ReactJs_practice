@@ -1,9 +1,9 @@
 {
   "files": {
-    "static/css/0.chunk.css": "/arijitnandi/wp-content/themes/arijit86/static/css/0.chunk.css",
-    "static/js/0.chunk.js": "/arijitnandi/wp-content/themes/arijit86/static/js/0.chunk.js",
-    "static/css/0.chunk.css.map": "/arijitnandi/wp-content/themes/arijit86/static/css/0.chunk.css.map",
-    "static/js/0.chunk.js.map": "/arijitnandi/wp-content/themes/arijit86/static/js/0.chunk.js.map",
+    "static/css/1.chunk.css": "/arijitnandi/wp-content/themes/arijit86/static/css/1.chunk.css",
+    "static/js/1.chunk.js": "/arijitnandi/wp-content/themes/arijit86/static/js/1.chunk.js",
+    "static/css/1.chunk.css.map": "/arijitnandi/wp-content/themes/arijit86/static/css/1.chunk.css.map",
+    "static/js/1.chunk.js.map": "/arijitnandi/wp-content/themes/arijit86/static/js/1.chunk.js.map",
     "main.css": "/arijitnandi/wp-content/themes/arijit86/static/css/main.chunk.css",
     "main.js": "/arijitnandi/wp-content/themes/arijit86/static/js/main.chunk.js",
     "main.css.map": "/arijitnandi/wp-content/themes/arijit86/static/css/main.chunk.css.map",
@@ -24,8 +24,8 @@
   },
   "entrypoints": [
     "static/js/bundle.js",
-    "static/css/0.chunk.css",
-    "static/js/0.chunk.js",
+    "static/css/1.chunk.css",
+    "static/js/1.chunk.js",
     "static/css/main.chunk.css",
     "static/js/main.chunk.js"
   ]
