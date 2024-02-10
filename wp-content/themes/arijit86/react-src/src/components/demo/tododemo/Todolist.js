@@ -6,27 +6,16 @@ const { Option } = Select;
 const { Text } = Typography;
 
 const Todolist = () => {
+    
+    const [todoList, setTodoList] = useState([]);
     const [itemStatus, setItemStatus] = useState(false);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const [newItem, setNewItem] = useState({ name: '', status: false });
-    const [todoList, setTodoList] = useState([]);
     const [initLoading, setInitLoading] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        const storedTodoList = localStorage.getItem('todoList');
-        if (storedTodoList) {
-            setTodoList(JSON.parse(storedTodoList));
-        }
-    }, []);
-
-    // Save todoList to localStorage whenever it changes
-    useEffect(() => {
-        localStorage.setItem('todoList', JSON.stringify(todoList));
-    }, [todoList]);
 
     const handleInputChange = (event) => {
         setNewItem({ ...newItem, name: event.target.value });
@@ -128,7 +117,7 @@ const Todolist = () => {
                                     className={`demo-loadmore-list ${todoList.length > 0 ? 'greybox' : ''}`}
                                     loading={initLoading}
                                     itemLayout="horizontal"
-                                    // loadMore={loadMore}
+                                    loadMore={loadMore}
                                     dataSource={todoList}
                                     renderItem={(item, index) => (
                                         <div>

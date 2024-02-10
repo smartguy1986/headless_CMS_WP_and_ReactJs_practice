@@ -36,7 +36,7 @@ function App() {
                         <Route path="/arijitnandi" element={<Homepage />} />
                         <Route path="/arijitnandi/react/demos/tododemo" element={<Todolist />} />
                     </Routes>
-                    {/* <Footer /> */}
+                    <Footer />
                 </div>
             </BrowserRouter>
         </div>

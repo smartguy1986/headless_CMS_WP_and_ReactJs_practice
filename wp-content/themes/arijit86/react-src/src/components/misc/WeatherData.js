@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '../../urlConfig';
-import { Spin, Space, Typography } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Space, Typography } from 'antd';
 
 const { Text } = Typography;
 const WEATHER_APP_API_ICON = 'https://openweathermap.org/img/wn';

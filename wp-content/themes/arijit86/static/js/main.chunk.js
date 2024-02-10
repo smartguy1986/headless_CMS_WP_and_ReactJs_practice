@@ -168,7 +168,14 @@ function App() {
       lineNumber: 37,
       columnNumber: 25
     }
-  })))));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_inc_Footer__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    __self: this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 39,
+      columnNumber: 21
+    }
+  }))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
 
@@ -760,6 +767,7 @@ const {
   Text
 } = antd__WEBPACK_IMPORTED_MODULE_1__["Typography"];
 const Todolist = () => {
+  const [todoList, setTodoList] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
   const [itemStatus, setItemStatus] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [open, setOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const handleOpen = () => setOpen(true);
@@ -768,20 +776,8 @@ const Todolist = () => {
     name: '',
     status: false
   });
-  const [todoList, setTodoList] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
   const [initLoading, setInitLoading] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [loading, setLoading] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    const storedTodoList = localStorage.getItem('todoList');
-    if (storedTodoList) {
-      setTodoList(JSON.parse(storedTodoList));
-    }
-  }, []);
-
-  // Save todoList to localStorage whenever it changes
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    localStorage.setItem('todoList', JSON.stringify(todoList));
-  }, [todoList]);
   const handleInputChange = event => {
     setNewItem({
       ...newItem,
@@ -837,7 +833,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 76,
+      lineNumber: 65,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -845,7 +841,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 84,
+      lineNumber: 73,
       columnNumber: 17
     }
   }, "loading more")) : null;
@@ -854,7 +850,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 90,
+      lineNumber: 79,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -863,7 +859,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 91,
+      lineNumber: 80,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -871,7 +867,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 92,
+      lineNumber: 81,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -883,7 +879,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 93,
+      lineNumber: 82,
       columnNumber: 25
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -891,14 +887,14 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 94,
+      lineNumber: 83,
       columnNumber: 29
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 95,
+      lineNumber: 84,
       columnNumber: 33
     }
   }, "To-Do list in React"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
@@ -906,7 +902,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 96,
+      lineNumber: 85,
       columnNumber: 33
     }
   }, "Add item to the list, or mark complete. You can filter the list also."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -918,7 +914,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 99,
+      lineNumber: 88,
       columnNumber: 25
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -931,7 +927,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 100,
+      lineNumber: 89,
       columnNumber: 29
     }
   }, "Add Item"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Modal"], {
@@ -942,7 +938,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 103,
+      lineNumber: 92,
       columnNumber: 29
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -955,7 +951,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 109,
+      lineNumber: 98,
       columnNumber: 33
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Select"], {
@@ -970,7 +966,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 115,
+      lineNumber: 104,
       columnNumber: 33
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Option, {
@@ -978,7 +974,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 122,
+      lineNumber: 111,
       columnNumber: 37
     }
   }, "Not Completed"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Option, {
@@ -986,21 +982,20 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 123,
+      lineNumber: 112,
       columnNumber: 37
     }
   }, "Completed"))), todoList ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
     className: `demo-loadmore-list ${todoList.length > 0 ? 'greybox' : ''}`,
     loading: initLoading,
-    itemLayout: "horizontal"
-    // loadMore={loadMore}
-    ,
+    itemLayout: "horizontal",
+    loadMore: loadMore,
     dataSource: todoList,
     renderItem: (item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 134,
+        lineNumber: 123,
         columnNumber: 41
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["List"].Item, {
@@ -1008,7 +1003,7 @@ const Todolist = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 135,
+        lineNumber: 124,
         columnNumber: 45
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Skeleton"], {
@@ -1018,7 +1013,7 @@ const Todolist = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 136,
+        lineNumber: 125,
         columnNumber: 49
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["List"].Item.Meta, {
@@ -1028,7 +1023,7 @@ const Todolist = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 139,
+          lineNumber: 128,
           columnNumber: 61
         }
       }),
@@ -1037,14 +1032,14 @@ const Todolist = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 145,
+          lineNumber: 134,
           columnNumber: 61
         }
       }, item.name),
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 137,
+        lineNumber: 126,
         columnNumber: 53
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -1053,21 +1048,21 @@ const Todolist = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 150,
+          lineNumber: 139,
           columnNumber: 107
         }
       }),
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 150,
+        lineNumber: 139,
         columnNumber: 53
       }
     })))),
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 127,
+      lineNumber: 116,
       columnNumber: 33
     }
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Alert"], {
@@ -1076,14 +1071,14 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 157,
+      lineNumber: 146,
       columnNumber: 33
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Text, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 158,
+      lineNumber: 147,
       columnNumber: 37
     }
   }, "No to-do item added yet.")))))));
@@ -1712,9 +1707,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _urlConfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../urlConfig */ "./src/urlConfig.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/index.js");
-/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/index.js");
 var _jsxFileName = "C:\\xampp\\htdocs\\arijitnandi\\wp-content\\themes\\arijit86\\react-src\\src\\components\\misc\\WeatherData.js";
-
 
 
 
@@ -1756,7 +1749,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 40,
+      lineNumber: 39,
       columnNumber: 9
     }
   }, weatherData && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Space"], {
@@ -1765,7 +1758,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 43,
+      lineNumber: 42,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Text, {
@@ -1773,7 +1766,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44,
+      lineNumber: 43,
       columnNumber: 25
     }
   }, weatherData.main.temp, "\xB0C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Text, {
@@ -1782,7 +1775,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45,
+      lineNumber: 44,
       columnNumber: 25
     }
   }, weatherData.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -1796,7 +1789,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46,
+      lineNumber: 45,
       columnNumber: 25
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Text, {
@@ -1804,7 +1797,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 51,
+      lineNumber: 50,
       columnNumber: 25
     }
   }, weatherData.weather[0].main))));
@@ -1993,10 +1986,6 @@ const API_ENDPOINTS = {
   CUSTOM_LOGO: `${API_BASE_URL}/an/images/sitelogo`,
   BANNER_IMAGES: `${API_BASE_URL}/an/images/banners`,
   CUSTOM_WEATHER: `${API_BASE_URL}/an/general/getweather`
-  // Add more endpoints as needed
-  //   ANOTHER_ENDPOINT: `${API_BASE_URL}/another/endpoint`,
-  //   YET_ANOTHER_ENDPOINT: `${API_BASE_URL}/yet/another/endpoint`,
-  // ...
 };
 
 /***/ }),

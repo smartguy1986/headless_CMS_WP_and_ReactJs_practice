@@ -553,3 +553,4 @@ Stack trace:
 #13 {main}
   thrown in C:\xampp\htdocs\arijitnandi\wp-content\plugins\an-custom-plugin\includes\general\weather.php on line 73
 [09-Feb-2024 20:30:14 UTC] Cron reschedule event error for hook: wp_privacy_delete_old_export_files, Error code: could_not_set, Error message: The cron event list could not be saved., Data: {"schedule":"hourly","args":[],"interval":3600}
+[10-Feb-2024 06:27:50 UTC] Cron reschedule event error for hook: wp_privacy_delete_old_export_files, Error code: could_not_set, Error message: The cron event list could not be saved., Data: {"schedule":"hourly","args":[],"interval":3600}
