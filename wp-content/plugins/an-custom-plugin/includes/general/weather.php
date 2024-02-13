@@ -70,7 +70,7 @@ if (!class_exists('anCustomWeatherAPI')) {
 
             if ($cached_data) {
                 // If cached data exists, return it
-                $cached_data['is_cached'] = true;
+                $cached_data->is_cached = true;
                 return new WP_REST_Response(
                     array('status' => 0, 'message' => 'Success', 'data' => $cached_data),
                     200

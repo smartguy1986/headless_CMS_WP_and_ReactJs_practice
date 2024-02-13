@@ -2250,7 +2250,8 @@ section {
     overflow: visible;
     z-index: 9999;
     width: 100%;
-    position: absolute !important;
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.8) !important;
 }
 
 #header .row {
@@ -4003,10 +4004,11 @@ blockquote {
 
 main {
     margin-top: 81px;
+    background-color: #f8f8ff;
 }
 
 .greybox {
-    background-color: #e1e1e1;
+    background-color: #ecedf6;
     padding: 1px 15px;
     border-radius: 10px;
 }
@@ -4016,6 +4018,19 @@ main {
     padding: 10px !important;
     border-radius: 5px;
     margin: 15px 0;
+}
+
+.anticon svg {
+	color: #585858 !important;
+}
+
+.Strikethrough{
+    text-decoration: line-through;
+    color: #585858;
+}
+
+.filterOption{
+    width: 150px;
 }
 
 /*# sourceMappingURL=main.chunk.css.map*/

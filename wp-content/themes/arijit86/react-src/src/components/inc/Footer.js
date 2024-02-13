@@ -1,4 +1,6 @@
 import React from 'react';
+import { FacebookFilled, GooglePlusSquareFilled, TwitterSquareFilled, InstagramFilled } from '@ant-design/icons';
+import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -8,29 +10,16 @@ const Footer = () => {
 
                     <ul className="col-2 social-icons">
                         <li>
-                            <a target="_blank" title="Facebook" href="https://www.facebook.com/username" rel="noopener noreferrer">
-                                <i className="fa fa-facebook fa-1x"></i><span>Facebook</span>
-                            </a>
+                            <NavLink to={'/'}><FacebookFilled /></NavLink>
                         </li>
                         <li>
-                            <a target="_blank" title="Google+" href="http://google.com/+username" rel="noopener noreferrer">
-                                <i className="fa fa-google-plus fa-1x"></i><span>Google+</span>
-                            </a>
+                            <NavLink to={'/'}><GooglePlusSquareFilled /></NavLink>
                         </li>
                         <li>
-                            <a target="_blank" title="Twitter" href="http://www.twitter.com/username" rel="noopener noreferrer">
-                                <i className="fa fa-twitter fa-1x"></i><span>Twitter</span>
-                            </a>
+                            <NavLink to={'/'}><TwitterSquareFilled /></NavLink>
                         </li>
                         <li>
-                            <a target="_blank" title="Instagram" href="http://www.instagram.com/username" rel="noopener noreferrer">
-                                <i className="fa fa-instagram fa-1x"></i><span>Instagram</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a target="_blank" title="behance" href="http://www.behance.net" rel="noopener noreferrer">
-                                <i className="fa fa-behance fa-1x"></i><span>Behance</span>
-                            </a>
+                            <NavLink to={'/'}><InstagramFilled /></NavLink>
                         </li>
                     </ul>
 

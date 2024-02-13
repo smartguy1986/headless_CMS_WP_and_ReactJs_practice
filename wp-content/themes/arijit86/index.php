@@ -39,7 +39,7 @@
         Learn how to configure a non-root public URL by running `npm run wpbuild`.
     -->
     <title>React WordPress Theme</title>
-<link href="/arijitnandi/wp-content/themes/arijit86/static/css/1.chunk.css?93d8f9dbc688ce315a73" rel="stylesheet"><link href="/arijitnandi/wp-content/themes/arijit86/static/css/main.chunk.css?93d8f9dbc688ce315a73" rel="stylesheet"></head>
+<link href="/arijitnandi/wp-content/themes/arijit86/static/css/1.chunk.css?fb782597adc227355f97" rel="stylesheet"><link href="/arijitnandi/wp-content/themes/arijit86/static/css/main.chunk.css?fb782597adc227355f97" rel="stylesheet"></head>
     <body>
     <noscript>
         You need to enable JavaScript to run this app.
@@ -55,5 +55,5 @@
         To begin the development, run `npm run wpstart` or `yarn wpstart`.
         To create a production bundle, use `npm run wpbuild` or `yarn wpbuild`.
     -->
-    <script src="/arijitnandi/wp-content/themes/arijit86/static/js/bundle.js?93d8f9dbc688ce315a73"></script><script src="/arijitnandi/wp-content/themes/arijit86/static/js/1.chunk.js?93d8f9dbc688ce315a73"></script><script src="/arijitnandi/wp-content/themes/arijit86/static/js/main.chunk.js?93d8f9dbc688ce315a73"></script></body>
+    <script src="/arijitnandi/wp-content/themes/arijit86/static/js/bundle.js?fb782597adc227355f97"></script><script src="/arijitnandi/wp-content/themes/arijit86/static/js/1.chunk.js?fb782597adc227355f97"></script><script src="/arijitnandi/wp-content/themes/arijit86/static/js/main.chunk.js?fb782597adc227355f97"></script></body>
 </html>

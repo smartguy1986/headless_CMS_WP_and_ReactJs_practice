@@ -554,3 +554,20 @@ Stack trace:
   thrown in C:\xampp\htdocs\arijitnandi\wp-content\plugins\an-custom-plugin\includes\general\weather.php on line 73
 [09-Feb-2024 20:30:14 UTC] Cron reschedule event error for hook: wp_privacy_delete_old_export_files, Error code: could_not_set, Error message: The cron event list could not be saved., Data: {"schedule":"hourly","args":[],"interval":3600}
 [10-Feb-2024 06:27:50 UTC] Cron reschedule event error for hook: wp_privacy_delete_old_export_files, Error code: could_not_set, Error message: The cron event list could not be saved., Data: {"schedule":"hourly","args":[],"interval":3600}
+[10-Feb-2024 08:30:55 UTC] PHP Fatal error:  Uncaught Error: Cannot use object of type stdClass as array in C:\xampp\htdocs\arijitnandi\wp-content\plugins\an-custom-plugin\includes\general\weather.php:73
+Stack trace:
+#0 C:\xampp\htdocs\arijitnandi\wp-content\plugins\an-custom-plugin\includes\general\weather.php(34): anCustomWeatherAPI->an_weather_service_get_current_weather(Object(WP_REST_Request))
+#1 C:\xampp\htdocs\arijitnandi\wp-includes\rest-api\class-wp-rest-server.php(1193): customWeather_API_Controller->an_weather_service_get_current_weather(Object(WP_REST_Request))
+#2 C:\xampp\htdocs\arijitnandi\wp-includes\rest-api\class-wp-rest-server.php(1041): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/an/general/get...', Array, NULL)
+#3 C:\xampp\htdocs\arijitnandi\wp-includes\rest-api\class-wp-rest-server.php(431): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#4 C:\xampp\htdocs\arijitnandi\wp-includes\rest-api.php(424): WP_REST_Server->serve_request('/an/general/get...')
+#5 C:\xampp\htdocs\arijitnandi\wp-includes\class-wp-hook.php(324): rest_api_loaded(Object(WP))
+#6 C:\xampp\htdocs\arijitnandi\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#7 C:\xampp\htdocs\arijitnandi\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#8 C:\xampp\htdocs\arijitnandi\wp-includes\class-wp.php(418): do_action_ref_array('parse_request', Array)
+#9 C:\xampp\htdocs\arijitnandi\wp-includes\class-wp.php(813): WP->parse_request('')
+#10 C:\xampp\htdocs\arijitnandi\wp-includes\functions.php(1336): WP->main('')
+#11 C:\xampp\htdocs\arijitnandi\wp-blog-header.php(16): wp()
+#12 C:\xampp\htdocs\arijitnandi\index.php(17): require('C:\\xampp\\htdocs...')
+#13 {main}
+  thrown in C:\xampp\htdocs\arijitnandi\wp-content\plugins\an-custom-plugin\includes\general\weather.php on line 73

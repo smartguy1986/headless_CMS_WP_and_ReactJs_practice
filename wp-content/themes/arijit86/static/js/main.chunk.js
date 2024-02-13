@@ -767,90 +767,149 @@ const {
   Text
 } = antd__WEBPACK_IMPORTED_MODULE_1__["Typography"];
 const Todolist = () => {
-  const [todoList, setTodoList] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
+  const [displayEditButtons, setDisplayEditButtons] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true);
+  const [filterStatus, setFilterStatus] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(-1);
   const [itemStatus, setItemStatus] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [open, setOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [editIndex, setEditIndex] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(-1);
+  const [editedTaskName, setEditedTaskName] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [newItem, setNewItem] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     name: '',
     status: false
   });
-  const [initLoading, setInitLoading] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
-  const [loading, setLoading] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [todoLists, setTodoLists] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
+  const [formInput, setFormInput] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("");
+
+  // Define a function to load data from localStorage
+  const loadTodoListFromLocalStorage = () => {
+    const storedTodoList = localStorage.getItem('todoList');
+    if (storedTodoList) {
+      return JSON.parse(storedTodoList); // Return the parsed todo list
+    } else {
+      return []; // Return an empty array if no todo list is found
+    }
+  };
+
+  // Define a function to save data to localStorage
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    const saveTodoListToLocalStorage = updatedTodoList => {
+      localStorage.setItem('todoList', JSON.stringify(updatedTodoList));
+    };
+  }, []);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setEditIndex(-1);
+  };
   const handleInputChange = event => {
-    setNewItem({
-      ...newItem,
-      name: event.target.value
-    });
+    // Update only the intended state variable
+    if (editIndex === -1) {
+      setNewItem({
+        ...newItem,
+        name: event.target.value
+      });
+    } else {
+      setEditedTaskName(event.target.value);
+    }
   };
   const handleStateChange = value => {
     setItemStatus(value);
   };
   const handleAddItem = () => {
     if (newItem.name.trim() !== '') {
-      setTodoList(prevTodoList => [...prevTodoList, {
+      const updatedOriginalList = [...todoLists, {
         name: newItem.name,
         status: itemStatus
-      }]);
+      }];
+      setTodoLists(updatedOriginalList);
+      saveTodoListToLocalStorage(updatedOriginalList);
+      if (filterStatus === -1 || filterStatus === itemStatus) {
+        const updatedFilteredList = [...todoLists, {
+          name: newItem.name,
+          status: itemStatus
+        }];
+        setTodoLists(updatedFilteredList);
+      }
       setNewItem({
         name: '',
         status: false
       });
       setOpen(false);
-      setInitLoading(false);
+    }
+  };
+  const handleListEdit = index => {
+    console.log("index==== " + index);
+    setEditIndex(index);
+    setEditedTaskName(todoLists[index].name);
+    setItemStatus(todoLists[index].status); // Set the status of the edited item
+    setOpen(true);
+  };
+  const handleEditItem = () => {
+    if (editedTaskName.trim() !== '') {
+      setTodoLists(prevTodoList => {
+        const updatedTodoList = [...prevTodoList];
+        updatedTodoList[editIndex].name = editedTaskName;
+        updatedTodoList[editIndex].status = itemStatus; // Update the status of the edited item
+        // Move the following lines inside the state update function
+        setEditedTaskName('');
+        setOpen(false);
+        saveTodoListToLocalStorage(updatedTodoList);
+        return updatedTodoList;
+      });
+    }
+  };
+  const handleListDelete = index => {
+    antd__WEBPACK_IMPORTED_MODULE_1__["Modal"].confirm({
+      title: 'Confirm Delete',
+      content: 'Are you sure you want to delete this item?',
+      okText: 'Delete',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk() {
+        // If the user confirms deletion, proceed with deleting the item
+        setTodoLists(prevTodoLists => {
+          const updatedOriginalList = [...prevTodoLists];
+          updatedOriginalList.splice(index, 1);
+          saveTodoListToLocalStorage(updatedOriginalList);
+          return updatedOriginalList;
+        });
+      },
+      onCancel() {
+        // If the user cancels deletion, do nothing
+      }
+    });
+  };
+  const handleFilterChange = value => {
+    console.log("value==== " + value);
+    const originalList = loadTodoListFromLocalStorage(); // Retrieve the todo list from local storage
+    setFilterStatus(value);
+    if (value === -1) {
+      setTodoLists(originalList); // Set the original todo list
+      console.log("todosaved1==== ", originalList);
+      setDisplayEditButtons(true);
+    } else if (value !== -1 && (value === true || value === false)) {
+      // Filter items based on the selected status
+      setDisplayEditButtons(false);
+      const filteredList = originalList.filter(listitem => listitem.status === value);
+      setTodoLists(filteredList);
+      console.log("todosaved2==== ", filteredList);
     }
   };
   const handleCheckboxChange = index => {
-    setTodoList(prevTodoList => {
+    console.log("checkbox=====" + index);
+    setTodoLists(prevTodoList => {
       const updatedTodoList = [...prevTodoList];
       updatedTodoList[index].status = !updatedTodoList[index].status;
+      saveTodoListToLocalStorage(updatedTodoList);
       return updatedTodoList;
     });
   };
-  const handleListDelete = index => {
-    setTodoList(prevTodoList => {
-      const updatedTodoList = [...prevTodoList];
-      updatedTodoList.splice(index, 1);
-      return updatedTodoList;
-    });
-  };
-  const onLoadMore = () => {
-    setLoading(true);
-  };
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    if (todoList.length) {
-      setLoading(false);
-    }
-  }, [todoList]);
-  const loadMore = !initLoading && !loading && todoList.length > 3 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    style: {
-      textAlign: 'center',
-      marginTop: 12,
-      height: 32,
-      lineHeight: '32px'
-    },
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 65,
-      columnNumber: 13
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-    onClick: onLoadMore,
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 73,
-      columnNumber: 17
-    }
-  }, "loading more")) : null;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
     id: "content",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 79,
+      lineNumber: 147,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -859,7 +918,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 80,
+      lineNumber: 148,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -867,7 +926,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 81,
+      lineNumber: 149,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -879,7 +938,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 82,
+      lineNumber: 150,
       columnNumber: 25
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -887,14 +946,14 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 83,
+      lineNumber: 151,
       columnNumber: 29
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 84,
+      lineNumber: 152,
       columnNumber: 33
     }
   }, "To-Do list in React"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
@@ -902,7 +961,7 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 85,
+      lineNumber: 153,
       columnNumber: 33
     }
   }, "Add item to the list, or mark complete. You can filter the list also."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -914,8 +973,46 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 88,
+      lineNumber: 156,
       columnNumber: 25
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Row"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 157,
+      columnNumber: 29
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+    span: 3,
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 158,
+      columnNumber: 33
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+    span: 18,
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 159,
+      columnNumber: 33
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Row"], {
+    justify: "space-between",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 160,
+      columnNumber: 37
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 161,
+      columnNumber: 41
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     onClick: handleOpen,
@@ -927,32 +1024,79 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 89,
-      columnNumber: 29
+      lineNumber: 162,
+      columnNumber: 45
     }
-  }, "Add Item"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Modal"], {
-    title: "Add Item to your list",
-    visible: open,
-    onOk: handleAddItem,
+  }, "Add Item")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 166,
+      columnNumber: 41
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Select"], {
+    placeholder: "All",
+    onChange: handleFilterChange,
+    style: {
+      width: '225',
+      marginBottom: '10px'
+    },
+    value: filterStatus,
+    className: "text-bold filterOption",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 167,
+      columnNumber: 45
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Option, {
+    value: -1,
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 174,
+      columnNumber: 49
+    }
+  }, "All"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Option, {
+    value: true,
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 175,
+      columnNumber: 49
+    }
+  }, "Completed"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Option, {
+    value: false,
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 176,
+      columnNumber: 49
+    }
+  }, "Not Completed")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Modal"], {
+    title: editIndex === -1 ? "Add Item to your list" : "Edit Item",
+    open: open,
+    onOk: editIndex === -1 ? handleAddItem : handleEditItem,
     onCancel: handleClose,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 92,
-      columnNumber: 29
+      lineNumber: 180,
+      columnNumber: 37
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Input"], {
     placeholder: "Add Item to your list",
     onChange: handleInputChange,
-    value: newItem.name,
+    value: editIndex === -1 ? newItem.name : editedTaskName // <-- Corrected value assignment
+    ,
     style: {
       marginBottom: '10px'
     },
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 98,
-      columnNumber: 33
+      lineNumber: 186,
+      columnNumber: 41
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Select"], {
     placeholder: "Select Status",
@@ -961,50 +1105,55 @@ const Todolist = () => {
       width: '100%',
       marginBottom: '10px'
     },
-    value: itemStatus,
+    value: itemStatus // Always use itemStatus for the value here
+    ,
     className: "text-bold",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 104,
-      columnNumber: 33
+      lineNumber: 192,
+      columnNumber: 41
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Option, {
     value: false,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 111,
-      columnNumber: 37
+      lineNumber: 199,
+      columnNumber: 45
     }
   }, "Not Completed"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Option, {
     value: true,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 112,
-      columnNumber: 37
+      lineNumber: 200,
+      columnNumber: 45
     }
-  }, "Completed"))), todoList ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
-    className: `demo-loadmore-list ${todoList.length > 0 ? 'greybox' : ''}`,
-    loading: initLoading,
+  }, "Completed"))), todoLists ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
+    className: `demo-loadmore-list ${todoLists.length > 0 ? 'greybox' : ''}`
+    // loading={initLoading}
+    ,
     itemLayout: "horizontal",
-    loadMore: loadMore,
-    dataSource: todoList,
+    dataSource: todoLists,
     renderItem: (item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 123,
-        columnNumber: 41
+        lineNumber: 211,
+        columnNumber: 49
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["List"].Item, {
       className: "whitebox",
+      style: {
+        display: 'flex',
+        alignItems: 'center'
+      },
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 124,
-        columnNumber: 45
+        lineNumber: 212,
+        columnNumber: 53
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Skeleton"], {
       avatar: true,
@@ -1013,34 +1162,66 @@ const Todolist = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 125,
-        columnNumber: 49
+        lineNumber: 213,
+        columnNumber: 57
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["List"].Item.Meta, {
-      avatar: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Checkbox"], {
+      avatar: displayEditButtons && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Checkbox"], {
         checked: item.status,
         onChange: () => handleCheckboxChange(index),
+        style: {
+          marginRight: '8px',
+          verticalAlign: 'middle',
+          padding: '2px'
+        },
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 128,
-          columnNumber: 61
+          lineNumber: 217,
+          columnNumber: 73
         }
       }),
       title: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "{item.status ? 'Strikethrough' : ''} text-bold",
+        className: item.status ? 'Strikethrough text-bold' : 'text-bold',
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 134,
-          columnNumber: 61
+          lineNumber: 225,
+          columnNumber: 69
         }
       }, item.name),
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 126,
-        columnNumber: 53
+        lineNumber: 214,
+        columnNumber: 61
+      }
+    }), displayEditButtons && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      style: {
+        display: 'flex',
+        gap: '8px'
+      },
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 231,
+        columnNumber: 65
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+      onClick: () => handleListEdit(index),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ant_design_icons__WEBPACK_IMPORTED_MODULE_2__["EditFilled"], {
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 232,
+          columnNumber: 121
+        }
+      }),
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 232,
+        columnNumber: 69
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
       onClick: () => handleListDelete(index),
@@ -1048,22 +1229,22 @@ const Todolist = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 139,
-          columnNumber: 107
+          lineNumber: 233,
+          columnNumber: 123
         }
       }),
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 139,
-        columnNumber: 53
+        lineNumber: 233,
+        columnNumber: 69
       }
-    })))),
+    }))))),
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 116,
-      columnNumber: 33
+      lineNumber: 205,
+      columnNumber: 41
     }
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Alert"], {
     variant: "outlined",
@@ -1071,17 +1252,25 @@ const Todolist = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 146,
-      columnNumber: 33
+      lineNumber: 242,
+      columnNumber: 41
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Text, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 147,
-      columnNumber: 37
+      lineNumber: 243,
+      columnNumber: 45
     }
-  }, "No to-do item added yet.")))))));
+  }, "No to-do item added yet."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+    span: 3,
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 247,
+      columnNumber: 33
+    }
+  })))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Todolist);
 
@@ -1260,7 +1449,11 @@ const Banner = () => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 var _jsxFileName = "C:\\xampp\\htdocs\\arijitnandi\\wp-content\\themes\\arijit86\\react-src\\src\\components\\inc\\Footer.js";
+
+
 
 const Footer = () => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
@@ -1269,7 +1462,7 @@ const Footer = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 6,
+      lineNumber: 8,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1277,7 +1470,7 @@ const Footer = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 7,
+      lineNumber: 9,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
@@ -1285,175 +1478,98 @@ const Footer = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 9,
+      lineNumber: 11,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 10,
+      lineNumber: 12,
       columnNumber: 25
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    target: "_blank",
-    title: "Facebook",
-    href: "https://www.facebook.com/username",
-    rel: "noopener noreferrer",
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+    to: '/',
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 11,
+      lineNumber: 13,
       columnNumber: 29
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-facebook fa-1x",
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ant_design_icons__WEBPACK_IMPORTED_MODULE_1__["FacebookFilled"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 12,
-      columnNumber: 33
+      lineNumber: 13,
+      columnNumber: 47
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 12,
-      columnNumber: 73
-    }
-  }, "Facebook"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 15,
       columnNumber: 25
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    target: "_blank",
-    title: "Google+",
-    href: "http://google.com/+username",
-    rel: "noopener noreferrer",
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+    to: '/',
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 16,
       columnNumber: 29
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-google-plus fa-1x",
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ant_design_icons__WEBPACK_IMPORTED_MODULE_1__["GooglePlusSquareFilled"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
-      columnNumber: 33
+      lineNumber: 16,
+      columnNumber: 47
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
-      columnNumber: 76
-    }
-  }, "Google+"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 20,
+      lineNumber: 18,
       columnNumber: 25
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    target: "_blank",
-    title: "Twitter",
-    href: "http://www.twitter.com/username",
-    rel: "noopener noreferrer",
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+    to: '/',
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 19,
+      columnNumber: 29
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ant_design_icons__WEBPACK_IMPORTED_MODULE_1__["TwitterSquareFilled"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 19,
+      columnNumber: 47
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 21,
-      columnNumber: 29
+      columnNumber: 25
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-twitter fa-1x",
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+    to: '/',
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 22,
-      columnNumber: 33
+      columnNumber: 29
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ant_design_icons__WEBPACK_IMPORTED_MODULE_1__["InstagramFilled"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 22,
-      columnNumber: 72
+      columnNumber: 47
     }
-  }, "Twitter"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 25,
-      columnNumber: 25
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    target: "_blank",
-    title: "Instagram",
-    href: "http://www.instagram.com/username",
-    rel: "noopener noreferrer",
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 26,
-      columnNumber: 29
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-instagram fa-1x",
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 27,
-      columnNumber: 33
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 27,
-      columnNumber: 74
-    }
-  }, "Instagram"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 30,
-      columnNumber: 25
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    target: "_blank",
-    title: "behance",
-    href: "http://www.behance.net",
-    rel: "noopener noreferrer",
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 31,
-      columnNumber: 29
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-behance fa-1x",
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 32,
-      columnNumber: 33
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 32,
-      columnNumber: 72
-    }
-  }, "Behance")))))));
+  })))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Footer);
 
@@ -1725,16 +1841,21 @@ const WeatherData = () => {
       setLong(position.coords.longitude);
     });
     const fetchWeather = async () => {
-      try {
-        const response = await fetch(`${_urlConfig__WEBPACK_IMPORTED_MODULE_1__["API_ENDPOINTS"].CUSTOM_WEATHER}?lat=${lat}&lon=${long}`);
-        if (response.status === 200) {
-          const data = await response.json();
-          setWeatherData(data.data);
-        } else {
-          console.error('Error fetching weather:', response.statusText);
+      if (lat && long) {
+        // Check if lat and long have values
+        try {
+          const response = await fetch(`${_urlConfig__WEBPACK_IMPORTED_MODULE_1__["API_ENDPOINTS"].CUSTOM_WEATHER}?lat=${lat}&lon=${long}`);
+          if (response.status === 200) {
+            const data = await response.json();
+            setWeatherData(data.data);
+          } else {
+            console.error('Error fetching weather:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error fetching weather:', error.message);
         }
-      } catch (error) {
-        console.error('Error fetching weather:', error.message);
+      } else {
+        console.log('lat and long are not available yet.');
       }
     };
     fetchWeather();
@@ -1749,7 +1870,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39,
+      lineNumber: 43,
       columnNumber: 9
     }
   }, weatherData && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd__WEBPACK_IMPORTED_MODULE_2__["Space"], {
@@ -1758,7 +1879,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 42,
+      lineNumber: 46,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Text, {
@@ -1766,7 +1887,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 43,
+      lineNumber: 47,
       columnNumber: 25
     }
   }, weatherData.main.temp, "\xB0C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Text, {
@@ -1775,7 +1896,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44,
+      lineNumber: 48,
       columnNumber: 25
     }
   }, weatherData.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -1789,7 +1910,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45,
+      lineNumber: 49,
       columnNumber: 25
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Text, {
@@ -1797,7 +1918,7 @@ const WeatherData = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50,
+      lineNumber: 54,
       columnNumber: 25
     }
   }, weatherData.weather[0].main))));

@@ -53,6 +53,7 @@
     "browserLaunchTo": "http://localhost/arijitnandi",
     "devDependencies": {
         "css-loader": "^6.9.1",
-        "style-loader": "^3.3.4"
+        "style-loader": "^3.3.4",
+        "webpack-cli": "^5.1.4"
     }
 }

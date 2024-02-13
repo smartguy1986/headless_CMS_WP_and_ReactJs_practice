@@ -1,24 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Input, Select, Button, List, Checkbox, Alert, Typography, Skeleton } from 'antd';
-import { DeleteFilled } from '@ant-design/icons';
+import { Modal, Input, Select, Button, List, Checkbox, Alert, Typography, Skeleton, Col, Row } from 'antd';
+import { DeleteFilled, EditFilled } from '@ant-design/icons';
 
 const { Option } = Select;
 const { Text } = Typography;
 
 const Todolist = () => {
-    
-    const [todoList, setTodoList] = useState([]);
+
+    const [displayEditButtons, setDisplayEditButtons] = useState(true);
+    const [filterStatus, setFilterStatus] = useState(-1);
     const [itemStatus, setItemStatus] = useState(false);
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+    const [editIndex, setEditIndex] = useState(-1);
+    const [editedTaskName, setEditedTaskName] = useState('');
     const [newItem, setNewItem] = useState({ name: '', status: false });
-    const [initLoading, setInitLoading] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [todoLists, setTodoLists] = useState([]);
+    const [formInput, setFormInput] = useState("");
+
+    // Define a function to load data from localStorage
+    const loadTodoListFromLocalStorage = () => {
+        const storedTodoList = localStorage.getItem('todoList');
+        if (storedTodoList) {
+            return JSON.parse(storedTodoList); // Return the parsed todo list
+        } else {
+            return []; // Return an empty array if no todo list is found
+        }
+    };
+
+    // Define a function to save data to localStorage
+    useEffect(() => {
+        const saveTodoListToLocalStorage = (updatedTodoList) => {
+            localStorage.setItem('todoList', JSON.stringify(updatedTodoList));
+        };
+    }, [])
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        setOpen(false);
+        setEditIndex(-1);
+    };
 
     const handleInputChange = (event) => {
-        setNewItem({ ...newItem, name: event.target.value });
+        // Update only the intended state variable
+        if (editIndex === -1) {
+            setNewItem({ ...newItem, name: event.target.value });
+        } else {
+            setEditedTaskName(event.target.value);
+        }
     };
 
     const handleStateChange = (value) => {
@@ -27,52 +55,92 @@ const Todolist = () => {
 
     const handleAddItem = () => {
         if (newItem.name.trim() !== '') {
-            setTodoList((prevTodoList) => [...prevTodoList, { name: newItem.name, status: itemStatus }]);
+            const updatedOriginalList = [...todoLists, { name: newItem.name, status: itemStatus }];
+            setTodoLists(updatedOriginalList);
+            saveTodoListToLocalStorage(updatedOriginalList);
+
+            if (filterStatus === -1 || filterStatus === itemStatus) {
+                const updatedFilteredList = [...todoLists, { name: newItem.name, status: itemStatus }];
+                setTodoLists(updatedFilteredList);
+            }
             setNewItem({ name: '', status: false });
             setOpen(false);
-            setInitLoading(false);
         }
     };
 
-    const handleCheckboxChange = (index) => {
-        setTodoList((prevTodoList) => {
-            const updatedTodoList = [...prevTodoList];
-            updatedTodoList[index].status = !updatedTodoList[index].status;
-            return updatedTodoList;
-        });
+    const handleListEdit = (index) => {
+        console.log("index==== " + index);
+        setEditIndex(index);
+        setEditedTaskName(todoLists[index].name);
+        setItemStatus(todoLists[index].status); // Set the status of the edited item
+        setOpen(true);
+    };
+
+    const handleEditItem = () => {
+        if (editedTaskName.trim() !== '') {
+            setTodoLists((prevTodoList) => {
+                const updatedTodoList = [...prevTodoList];
+                updatedTodoList[editIndex].name = editedTaskName;
+                updatedTodoList[editIndex].status = itemStatus; // Update the status of the edited item
+                // Move the following lines inside the state update function
+                setEditedTaskName('');
+                setOpen(false);
+                saveTodoListToLocalStorage(updatedTodoList);
+                return updatedTodoList;
+            });
+        }
     };
 
     const handleListDelete = (index) => {
-        setTodoList((prevTodoList) => {
-            const updatedTodoList = [...prevTodoList];
-            updatedTodoList.splice(index, 1);
-            return updatedTodoList;
+        Modal.confirm({
+            title: 'Confirm Delete',
+            content: 'Are you sure you want to delete this item?',
+            okText: 'Delete',
+            okType: 'danger',
+            cancelText: 'Cancel',
+            onOk() {
+                // If the user confirms deletion, proceed with deleting the item
+                setTodoLists(prevTodoLists => {
+                    const updatedOriginalList = [...prevTodoLists];
+                    updatedOriginalList.splice(index, 1);
+                    saveTodoListToLocalStorage(updatedOriginalList);
+                    return updatedOriginalList;
+                });
+            },
+            onCancel() {
+                // If the user cancels deletion, do nothing
+            },
         });
     };
 
-    const onLoadMore = () => {
-        setLoading(true);
+    const handleFilterChange = (value) => {
+        console.log("value==== " + value);
+        const originalList = loadTodoListFromLocalStorage(); // Retrieve the todo list from local storage
+        setFilterStatus(value);
+
+        if (value === -1) {
+            setTodoLists(originalList); // Set the original todo list
+            console.log("todosaved1==== ", originalList);
+            setDisplayEditButtons(true);
+        } else if (value !== -1 && (value === true || value === false)) {
+            // Filter items based on the selected status
+            setDisplayEditButtons(false);
+            const filteredList = originalList.filter(listitem => listitem.status === value);
+            setTodoLists(filteredList);
+            console.log("todosaved2==== ", filteredList);
+        }
     };
 
-    useEffect(() => {
-        if (todoList.length) {
-            setLoading(false);
-        }
-    }, [todoList]);
 
-    const loadMore =
-        !initLoading && !loading && todoList.length > 3 ? (
-            <div
-                style={{
-                    textAlign: 'center',
-                    marginTop: 12,
-                    height: 32,
-                    lineHeight: '32px',
-                }}
-            >
-                <Button onClick={onLoadMore}>loading more</Button>
-            </div>
-        ) : null;
+    const handleCheckboxChange = (index) => {
+        console.log("checkbox=====" + index);
+        setTodoLists((prevTodoList) => {
+            const updatedTodoList = [...prevTodoList];
+            updatedTodoList[index].status = !updatedTodoList[index].status;
+            saveTodoListToLocalStorage(updatedTodoList);
+            return updatedTodoList;
+        });
+    };
 
     return (
         <>
@@ -86,67 +154,98 @@ const Todolist = () => {
                             </div>
                         </div>
                         <div className="col row clearfix" style={{ margin: 0, padding: 0 }}>
-                            <Button onClick={handleOpen} type="primary" style={{ marginBottom: '10px' }} className='text-bold'>
-                                Add Item
-                            </Button>
-                            <Modal
-                                title="Add Item to your list"
-                                visible={open}
-                                onOk={handleAddItem}
-                                onCancel={handleClose}
-                            >
-                                <Input
-                                    placeholder="Add Item to your list"
-                                    onChange={handleInputChange}
-                                    value={newItem.name}
-                                    style={{ marginBottom: '10px' }}
-                                />
-                                <Select
-                                    placeholder="Select Status"
-                                    onChange={handleStateChange}
-                                    style={{ width: '100%', marginBottom: '10px' }}
-                                    value={itemStatus}
-                                    className="text-bold"
-                                >
-                                    <Option value={false}>Not Completed</Option>
-                                    <Option value={true}>Completed</Option>
-                                </Select>
-                            </Modal>
-                            {todoList ? (
-                                <List
-                                    className={`demo-loadmore-list ${todoList.length > 0 ? 'greybox' : ''}`}
-                                    loading={initLoading}
-                                    itemLayout="horizontal"
-                                    loadMore={loadMore}
-                                    dataSource={todoList}
-                                    renderItem={(item, index) => (
-                                        <div>
-                                            <List.Item className='whitebox'>
-                                                <Skeleton avatar title={false} loading={item.loading}>
-                                                    <List.Item.Meta
-                                                        avatar={
-                                                            <Checkbox
-                                                                checked={item.status}
-                                                                onChange={() => handleCheckboxChange(index)}
+                            <Row>
+                                <Col span={3}></Col>
+                                <Col span={18}>
+                                    <Row justify="space-between">
+                                        <Col>
+                                            <Button onClick={handleOpen} type="primary" style={{ marginBottom: '10px' }} className='text-bold'>
+                                                Add Item
+                                            </Button>
+                                        </Col>
+                                        <Col>
+                                            <Select
+                                                placeholder="All"
+                                                onChange={handleFilterChange}
+                                                style={{ width: '225', marginBottom: '10px' }}
+                                                value={filterStatus}
+                                                className="text-bold filterOption"
+                                            >
+                                                <Option value={-1}>All</Option>
+                                                <Option value={true}>Completed</Option>
+                                                <Option value={false}>Not Completed</Option>
+                                            </Select>
+                                        </Col>
+                                    </Row>
+                                    <Modal
+                                        title={editIndex === -1 ? "Add Item to your list" : "Edit Item"}
+                                        open={open}
+                                        onOk={editIndex === -1 ? handleAddItem : handleEditItem}
+                                        onCancel={handleClose}
+                                    >
+                                        <Input
+                                            placeholder="Add Item to your list"
+                                            onChange={handleInputChange}
+                                            value={editIndex === -1 ? newItem.name : editedTaskName}// <-- Corrected value assignment
+                                            style={{ marginBottom: '10px' }}
+                                        />
+                                        <Select
+                                            placeholder="Select Status"
+                                            onChange={handleStateChange}
+                                            style={{ width: '100%', marginBottom: '10px' }}
+                                            value={itemStatus} // Always use itemStatus for the value here
+                                            className="text-bold"
+                                        >
+                                            <Option value={false}>Not Completed</Option>
+                                            <Option value={true}>Completed</Option>
+                                        </Select>
+                                    </Modal>
+
+                                    {todoLists ? (
+                                        <List
+                                            className={`demo-loadmore-list ${todoLists.length > 0 ? 'greybox' : ''}`}
+                                            // loading={initLoading}
+                                            itemLayout="horizontal"
+                                            dataSource={todoLists}
+                                            renderItem={(item, index) => (
+                                                <div>
+                                                    <List.Item className='whitebox' style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <Skeleton avatar title={false} loading={item.loading}>
+                                                            <List.Item.Meta
+                                                                avatar={
+                                                                    displayEditButtons && (
+                                                                        <Checkbox
+                                                                            checked={item.status}
+                                                                            onChange={() => handleCheckboxChange(index)}
+                                                                            style={{ marginRight: '8px', verticalAlign: 'middle', padding: '2px' }}
+                                                                        />
+                                                                    )
+                                                                }
+                                                                title={
+                                                                    <span className={item.status ? 'Strikethrough text-bold' : 'text-bold'}>
+                                                                        {item.name}
+                                                                    </span>
+                                                                }
                                                             />
-                                                        }
-                                                        title={
-                                                            <span className="{item.status ? 'Strikethrough' : ''} text-bold">
-                                                                {item.name}
-                                                            </span>
-                                                        }
-                                                    />
-                                                    <Button onClick={() => handleListDelete(index)} icon={<DeleteFilled />} />
-                                                </Skeleton>
-                                            </List.Item>
-                                        </div>
+                                                            {displayEditButtons && (
+                                                                <div style={{ display: 'flex', gap: '8px' }}>
+                                                                    <Button onClick={() => handleListEdit(index)} icon={<EditFilled />} />
+                                                                    <Button onClick={() => handleListDelete(index)} icon={<DeleteFilled />} />
+                                                                </div>)
+                                                            }
+                                                        </Skeleton>
+                                                    </List.Item>
+                                                </div>
+                                            )}
+                                        />
+                                    ) : (
+                                        <Alert variant="outlined" severity="info">
+                                            <Text>No to-do item added yet.</Text>
+                                        </Alert>
                                     )}
-                                />
-                            ) : (
-                                <Alert variant="outlined" severity="info">
-                                    <Text>No to-do item added yet.</Text>
-                                </Alert>
-                            )}
+                                </Col>
+                                <Col span={3}></Col>
+                            </Row>
                         </div>
                     </div>
                 </section>

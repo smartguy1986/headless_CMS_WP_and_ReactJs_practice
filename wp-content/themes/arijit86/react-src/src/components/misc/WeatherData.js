@@ -17,18 +17,22 @@ const WeatherData = () => {
         });
 
         const fetchWeather = async () => {
-            try {
-                const response = await fetch(
-                    `${API_ENDPOINTS.CUSTOM_WEATHER}?lat=${lat}&lon=${long}`
-                );
-                if (response.status === 200) {
-                    const data = await response.json();
-                    setWeatherData(data.data);
-                } else {
-                    console.error('Error fetching weather:', response.statusText);
+            if (lat && long) { // Check if lat and long have values
+                try {
+                    const response = await fetch(
+                        `${API_ENDPOINTS.CUSTOM_WEATHER}?lat=${lat}&lon=${long}`
+                    );
+                    if (response.status === 200) {
+                        const data = await response.json();
+                        setWeatherData(data.data);
+                    } else {
+                        console.error('Error fetching weather:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching weather:', error.message);
                 }
-            } catch (error) {
-                console.error('Error fetching weather:', error.message);
+            } else {
+                console.log('lat and long are not available yet.');
             }
         };
 
@@ -41,7 +45,7 @@ const WeatherData = () => {
                 <>
                     <Space direction="horizontal" align="start">
                         <Text strong>{weatherData.main.temp}&deg;C</Text>
-                        <Text strong  type="secondary">{weatherData.name}</Text>
+                        <Text strong type="secondary">{weatherData.name}</Text>
                         <img
                             src={`${WEATHER_APP_API_ICON}/${weatherData.weather[0].icon}@2x.png`}
                             alt={weatherData.weather[0].description}
